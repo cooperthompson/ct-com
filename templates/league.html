@@ -1,0 +1,51 @@
+{% extends "home.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div id="league-list" class="container">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export Calendar<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="http://www.google.com/calendar/render?cid={{ ics|urlencode }}">Google
+                                    Calendar</a>
+                            </li>
+                            <li>
+                                <a href="{{ ics }}">Outlook Calendar</a>
+                            </li>
+                            <li>
+                                <a href="{{ ics }}">iCal Calendar</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>Today is {% now "l, F jS, Y g:i a" %}</td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+            <tr>
+                <th>Number</th>
+                <th>Team Name</th>
+                <th>Color</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team in league.teams.all %}
+                <tr>
+                    <td>{{ team.number }}</td>
+                    <td><a role="menuitem" href="/team/{{ team.id }}/">{{ team.name }}</a></td>
+                    <td>{{ team.color }}</td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

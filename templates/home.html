@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <br>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export Calendar<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="http://www.google.com/calendar/render?cid={{ ics|urlencode }}">Google Calendar</a>
+                            </li>
+                            <li>
+                                <a href="{{ ics }}">Outlook Calendar</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'ics' 'Master' %}">iCal Calendar</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>Today is {% now "l, F jS, Y g:i a" %}</td>
+            </tr>
+        </table>
+        {% if today_games %}
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td colspan="2"><h3>Today's Games</h3></td>
+                </tr>
+            </table>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Home Team</th>
+                    <th>Away Team</th>
+                    <th>Game Date</th>
+                    <th>Game Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for game in todays_games %}
+                    <tr>
+                        <td>{{ game.field }}</td>
+                        <td>
+                            <a href="/team/{{ game.home_team.id }}"
+                               title="{{ game.home_team }}">
+                                {{ game.home_team.name }}({{ game.home_team.color }})
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/team/{{ game.away_team.id }}"
+                               title="{{ game.away_team }}">
+                                {{ game.away_team.name }}({{ game.away_team.color }})
+                            </a>
+                            {% if game.color_conflict %}
+                                <span class="glyphicon glyphicon-flag" title="Color conflict"></span>
+                            {% endif %}
+                        </td>
+                        <td>{{ game.time|date:"M d (l)" }}</td>
+                        <td>{{ game.time|time:"g:i a" }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if upcoming_games %}
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td colspan="2"><h3>Upcoming Games</h3></td>
+                </tr>
+            </table>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Home Team</th>
+                    <th>Away Team</th>
+                    <th>Game Date</th>
+                    <th>Game Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for game in upcoming_games %}
+                    <tr>
+                        <td>{{ game.field }}</td>
+                        <td>
+                            <a href="/team/{{ game.home_team.id }}"
+                               title="{{ game.home_team }}">
+                                {{ game.home_team.name }}({{ game.home_team.color }})
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/team/{{ game.away_team.id }}"
+                               title="{{ game.away_team }}">
+                                {{ game.away_team.name }}({{ game.away_team.color }})
+                            </a>
+                            {% if game.color_conflict %}
+                                <span class="glyphicon glyphicon-flag" title="Color conflict"></span>
+                            {% endif %}
+                        </td>
+                        <td>{{ game.time|date:"M d (l)" }}</td>
+                        <td>{{ game.time|time:"g:i a" }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+{% endblock %}
