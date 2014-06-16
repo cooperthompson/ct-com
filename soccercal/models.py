@@ -38,7 +38,7 @@ class League(models.Model):
         http_url = urlparse(domain)
         webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
 
-        return '%s%s.ics' % (webcal_url, self.slug)
+        return '%s%s.ics' % (webcal_url, self.name.replace(' ', '_'))
 
 
 class Team(models.Model):
