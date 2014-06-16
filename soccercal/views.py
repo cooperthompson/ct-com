@@ -95,7 +95,7 @@ def ics(request, team_id=None, team_name=None):
     cal = Calendar()
     cal.add('prodid', '-//Breakway Schedules//mxm.dk//')
     cal.add('version', '2.0')
-    cal.add('X-WR-CALNAME', 'Breakaway Games')
+    cal.add('X-WR-CALNAME', this_team.name)
 
     now_dt = datetime.now()
     now_string = "%04d%02d%02dT%02d%02d%02d" % (
