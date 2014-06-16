@@ -96,6 +96,8 @@ def ics(request, team_id=None, team_name=None):
     cal.add('prodid', '-//Breakway Schedules//mxm.dk//')
     cal.add('version', '2.0')
     cal.add('X-WR-CALNAME', this_team.name)
+    cal.add('X-WR-TIMEZONE', 'CST6CDT')
+    cal.add('X-WR-CALDESC', 'Breakaway Team Schedule')
 
     now_dt = datetime.now()
     now_string = "%04d%02d%02dT%02d%02d%02d" % (
@@ -130,6 +132,8 @@ def master_ics(request):
     cal.add('prodid', '-//Breakway Schedules//mxm.dk//')
     cal.add('version', '2.0')
     cal.add('X-WR-CALNAME', "Breakaway Games")
+    cal.add('X-WR-TIMEZONE', 'CST6CDT')
+    cal.add('X-WR-CALDESC', 'Breakaway League Schedule')
 
     now_dt = datetime.now()
     now_string = "%04d%02d%02dT%02d%02d%02d" % (
