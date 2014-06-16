@@ -1,6 +1,5 @@
 from datetime import date
 from django.db import models
-from django.contrib.sites.models import Site
 from smart_selects.db_fields import ChainedForeignKey
 from urlparse import urlparse
 
@@ -22,6 +21,7 @@ class Season(models.Model):
 
 class League(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField()
     season = models.ForeignKey('Season', related_name='leagues', null=True, blank=True)
     org = models.ForeignKey('Organization', related_name='org', null=True, blank=True)
     key = models.CharField(max_length=100)
@@ -38,12 +38,13 @@ class League(models.Model):
         http_url = urlparse(domain)
         webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
 
-        return '%s%s.ics' % (webcal_url, self.name)
+        return '%s%s.ics' % (webcal_url, self.slug)
 
 
 class Team(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length=100)
+    slug = models.SlugField()
     color = models.CharField(max_length=100)
     league = models.ForeignKey('League', related_name='teams')
 
@@ -61,7 +62,7 @@ class Team(models.Model):
 
         http_url = urlparse(domain)
         webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
-        return '%s%s.ics' % (webcal_url, self.name)
+        return '%s%s.ics' % (webcal_url, self.slug)
 
 
 class Game(models.Model):

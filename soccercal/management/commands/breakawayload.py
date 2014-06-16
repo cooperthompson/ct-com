@@ -83,9 +83,11 @@ class Command(BaseCommand):
         for match in matches:
             self.stdout.write("Processing match: %s" % (match,))
             team_id = match[0]
-            team_name = match[1]
-            team_color = match[2]
+            team_name = match[1].strip()
+            team_color = match[2].strip()
+            slug = team_name.replace(" ", "_")
             team = Team(number=int(team_id),
+                        slug=slug,
                         name=team_name,
                         color=team_color,
                         league=self.league)
@@ -102,11 +104,13 @@ class Command(BaseCommand):
             league = League.objects.get(key=key)
         except League.DoesNotExist:
             self.stderr.write("Couldn't find league %s.  Creating on-the-fly." % key)
+            slug = key.replace(" ","_")
 
             # default the name to be the key.
             # the name can be updated in the admin GUI to something user-readable.
             # The key should never be changed.
             league = League(name=key,
+                            slug=slug,
                             key=key)
             league.save()
         return league
