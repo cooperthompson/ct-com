@@ -25,7 +25,7 @@ def home(request):
     domain = request.build_absolute_uri()
     http_url = urlparse(domain)
     webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
-    full_ics = '%s%s.ics' % (webcal_url, 'Master')
+    full_ics = '%s%s.ics' % (webcal_url, 'ics/Master')
 
     template = loader.get_template('home.html')
     context = RequestContext(request, {

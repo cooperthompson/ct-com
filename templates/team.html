@@ -35,8 +35,8 @@
                 <th>Field</th>
                 <th>Home Team</th>
                 <th>Away Team</th>
-                <th>Game Date</th>
                 <th>Game Time</th>
+                <th>Game Date</th>
             </tr>
         </thead>
         <tbody>
@@ -58,12 +58,13 @@
                             <span class="glyphicon glyphicon-flag" title="Color conflict"></span>
                         {% endif %}
                     </td>
+                    <td>{{ game.time|time:"g:i a" }}</td>
                     <td>
                         {{ game.time|date:"M d (l)" }}
                         {% if game.is_today %}
                             <span class="glyphicon glyphicon-calendar" title="Today"></span>
                         {% endif %}</td>
-                    <td>{{ game.time|time:"g:i a" }}</td>
+
                 </tr>
             {% endfor %}
         </tbody>

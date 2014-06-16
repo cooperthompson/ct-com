@@ -39,8 +39,8 @@
                     <th>Field</th>
                     <th>Home Team</th>
                     <th>Away Team</th>
-                    <th>Game Date</th>
                     <th>Game Time</th>
+                    <th>Game Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,8 +62,8 @@
                                 <span class="glyphicon glyphicon-flag" title="Color conflict"></span>
                             {% endif %}
                         </td>
-                        <td>{{ game.time|date:"M d (l)" }}</td>
                         <td>{{ game.time|time:"g:i a" }}</td>
+                        <td>{{ game.time|date:"M d (l)" }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -82,8 +82,8 @@
                     <th>Field</th>
                     <th>Home Team</th>
                     <th>Away Team</th>
-                    <th>Game Date</th>
                     <th>Game Time</th>
+                    <th>Game Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -105,8 +105,8 @@
                                 <span class="glyphicon glyphicon-flag" title="Color conflict"></span>
                             {% endif %}
                         </td>
-                        <td>{{ game.time|date:"M d (l)" }}</td>
                         <td>{{ game.time|time:"g:i a" }}</td>
+                        <td>{{ game.time|date:"M d (l)" }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
