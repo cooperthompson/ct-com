@@ -22,11 +22,17 @@ def home(request):
     upcoming_games = upcoming_games.filter(time__lt=next_week)
     upcoming_games = upcoming_games.order_by("time", "field")
 
+    domain = request.build_absolute_uri()
+    http_url = urlparse(domain)
+    webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
+    full_ics = '%s%s.ics' % (webcal_url, 'Master')
+
     template = loader.get_template('home.html')
     context = RequestContext(request, {
         'leagues': leagues,
         'todays_games': todays_games,
         'upcoming_games': upcoming_games,
+        'ics': full_ics
     })
     return HttpResponse(template.render(context))
 
