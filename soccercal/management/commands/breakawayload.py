@@ -104,7 +104,7 @@ class Command(BaseCommand):
             league = League.objects.get(key=key)
         except League.DoesNotExist:
             self.stderr.write("Couldn't find league %s.  Creating on-the-fly." % key)
-            slug = key.replace(" ","_")
+            slug = key.replace(" ", "_")
 
             # default the name to be the key.
             # the name can be updated in the admin GUI to something user-readable.
@@ -145,7 +145,7 @@ class Command(BaseCommand):
                 pass
 
             # regex check for the date row (i.e. Mo.Feb 3)
-            match = re.match("(\w+)\.?(\w+)\.?\s+(\d+)", line)
+            match = re.match("(\w+)\.?(\w+)\.?\s?(\d+)", line)
             if mode == "sched" and match:
                 game_date = line
 
