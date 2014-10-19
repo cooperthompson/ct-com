@@ -145,7 +145,7 @@ class Command(BaseCommand):
                 pass
 
             # regex check for the date row (i.e. Mo.Feb 3)
-            match = re.match("(\w+)\.?(\w+)\.?\s?(\d+)", line)
+            match = re.match("(\w+)\.?\s?(\w+)\.?\s?(\d+)", line)
             if mode == "sched" and match:
                 game_date = line
 
@@ -251,7 +251,7 @@ class Command(BaseCommand):
         return
 
     def parse_pdf_datetime(self, date_string, time_string):
-        match_date = re.match("(\w{2,3})\.(\w{3}).*?(\d+)", date_string)
+        match_date = re.match("(\w{2,3})\.\s?(\w{3}).*?\s?(\d+)", date_string)
         match_time = re.match("(\d+):(\d{2})", time_string)
 
         if match_date and match_time:
