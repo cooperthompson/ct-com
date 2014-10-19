@@ -5,6 +5,7 @@ from icalendar import Calendar, Event
 from datetime import datetime, timedelta, date
 import pdb
 import shortuuid
+import pytz
 
 
 def home(request):
@@ -124,8 +125,8 @@ def ics(request, team_id=None, team_name=None):
         except Exception as e:
             print e
             pdb.set_trace()
-        event.add('dtstart', game.time)
-        event.add('dtend', game.time + timedelta(hours=1))
+        event.add('dtstart', game.time, parameters={'TZID': 'US-Central'})
+        event.add('dtend', game.time + timedelta(hours=1), parameters={'TZID': 'US-Central'})
         event.add('dtstamp', datetime.now())
         event.add('location', "BreakAway Field %s" % game.field)
         event['uid'] = '%s/%s@breakawaysports.com' % (now_string, shortuuid.uuid())
@@ -161,7 +162,9 @@ def master_ics(request):
         except Exception as e:
             print e
             pdb.set_trace()
-        event.add('dtstart', game.time)
+
+        event.add('dtstart', game.time, parameters={'TZID': 'US-Central'})
+        pdb.set_trace()
         event.add('dtend', game.time + timedelta(hours=1))
         event.add('dtstamp', datetime.now())
         event.add('location', "BreakAway Field %s" % game.field)

@@ -7,6 +7,7 @@ import glob
 from django.core.management.base import BaseCommand
 from soccercal.models import *
 from django.conf import settings
+import pytz
 
 
 class Command(BaseCommand):
@@ -251,6 +252,7 @@ class Command(BaseCommand):
         return
 
     def parse_pdf_datetime(self, date_string, time_string):
+        tzinfo = pytz.timezone('US/Central')
         match_date = re.match("(\w{2,3})\.\s?(\w{3}).*?\s?(\d+)", date_string)
         match_time = re.match("(\d+):(\d{2})", time_string)
 
@@ -271,7 +273,7 @@ class Command(BaseCommand):
 
             game_dt = int(game_dt)
             try:
-                game_datetime = datetime(game_year, game_month, game_dt, game_hr, game_mn)
+                game_datetime = datetime(game_year, game_month, game_dt, game_hr, game_mn, tzinfo=tzinfo)
             except ValueError as e:
                 pdb.set_trace()
 
@@ -279,4 +281,6 @@ class Command(BaseCommand):
         else:
             self.stdout.write(date_string)
             game_datetime = None
+
+
         return game_datetime
