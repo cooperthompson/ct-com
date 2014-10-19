@@ -102,7 +102,7 @@ def ics(request, team_id=None, team_name=None):
     games = games.order_by("time", "field")
 
     cal = Calendar()
-    cal.add('prodid', '-//Breakway Schedules//mxm.dk//')
+    cal.add('prodid', '-//Breakway Schedules//Soccer Calendars//EN')
     cal.add('version', '2.0')
     cal.add('X-WR-CALNAME', this_team.name)
     cal.add('X-WR-TIMEZONE', 'CST6CDT')
@@ -122,11 +122,10 @@ def ics(request, team_id=None, team_name=None):
         event = Event()
         try:
             event.add('summary', '%s vs. %s' % (game.home_team, game.away_team))
-        except Exception as e:
-            print e
-            pdb.set_trace()
-        event.add('dtstart', game.time, parameters={'TZID': 'US-Central'})
-        event.add('dtend', game.time + timedelta(hours=1), parameters={'TZID': 'US-Central'})
+        except Exception:
+            event.add('summary', 'Breakaway game')
+        event.add('dtstart', game.time)
+        event.add('dtend', game.time + timedelta(hours=1))
         event.add('dtstamp', datetime.now())
         event.add('location', "BreakAway Field %s" % game.field)
         event['uid'] = '%s/%s@breakawaysports.com' % (now_string, shortuuid.uuid())
@@ -163,8 +162,7 @@ def master_ics(request):
             print e
             pdb.set_trace()
 
-        event.add('dtstart', game.time, parameters={'TZID': 'US-Central'})
-        pdb.set_trace()
+        event.add('dtstart', game.time)
         event.add('dtend', game.time + timedelta(hours=1))
         event.add('dtstamp', datetime.now())
         event.add('location', "BreakAway Field %s" % game.field)
