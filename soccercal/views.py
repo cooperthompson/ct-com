@@ -121,13 +121,16 @@ def ics(request, team_id=None, team_name=None):
     for game in games:
         event = Event()
         try:
-            event.add('summary', '%s vs. %s' % (game.home_team, game.away_team))
+            summary = '%s vs. %s' % (game.home_team, game.away_team)
         except Exception:
-            event.add('summary', 'Breakaway game')
+            summary = 'Breakaway game'
 
         if game.color_conflict:
             desc = 'Color conflict! (%s vs. %s)' % (game.away_team.color, game.home_team.color)
+            summary += ' (color conflict)'
             event.add('description', desc)
+
+        event.add('summary', summary)
 
         event.add('dtstart', game.time)
         event.add('dtend', game.time + timedelta(hours=1))
