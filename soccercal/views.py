@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from soccercal.models import *
-from icalendar import Calendar, Event
+from icalendar import Calendar, Event, Alarm
 from datetime import datetime, timedelta, date
 import pdb
 import shortuuid
@@ -124,12 +124,24 @@ def ics(request, team_id=None, team_name=None):
             event.add('summary', '%s vs. %s' % (game.home_team, game.away_team))
         except Exception:
             event.add('summary', 'Breakaway game')
+
+        if game.color_conflict:
+            desc = 'Color conflict! (%s vs. %s)' % (game.away_team.color, game.home_team.color)
+            event.add('description', desc)
+
         event.add('dtstart', game.time)
         event.add('dtend', game.time + timedelta(hours=1))
         event.add('dtstamp', datetime.now())
         event.add('location', "BreakAway Field %s" % game.field)
         event['uid'] = '%s/%s@breakawaysports.com' % (now_string, shortuuid.uuid())
         event.add('priority', 5)
+
+        alarm = Alarm()
+        alarm.add("TRIGGER;RELATED=START", "-PT{0}M".format('45'))
+        alarm.add('action', 'display')
+        alarm.add('description', 'Breakaway game')
+
+        event.add_component(alarm)
         cal.add_component(event)
 
     return HttpResponse(cal.to_ical(), content_type='text/calendar')

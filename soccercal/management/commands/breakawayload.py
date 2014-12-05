@@ -79,7 +79,7 @@ class Command(BaseCommand):
         """
         @param line: A single lien from the PDF to be parsed for team data
         """
-        #matches = re.findall("\s*(\d+)\.?\s+(.*)\s+(\d+)\.\s+(.*)", line)
+        # matches = re.findall("\s*(\d+)\.?\s+(.*)\s+(\d+)\.\s+(.*)", line)
         matches = re.findall("(\d+)\.\s+(.*?)\((.*?)\)", line)
         for match in matches:
             self.stdout.write("Processing match: %s" % (match,))
@@ -124,7 +124,7 @@ class Command(BaseCommand):
         mode = "start"
         game_date = "0"
 
-        #if self.league.key != "coedsocialw31314":
+        # if self.league.key != "coedsocialw31314":
         #    return
 
         while True:
@@ -142,7 +142,7 @@ class Command(BaseCommand):
                 mode = "sched-complete"
 
             if mode == "sched":
-                #print repr(line)
+                # print repr(line)
                 pass
 
             # regex check for the date row (i.e. Mo.Feb 3)
@@ -192,7 +192,7 @@ class Command(BaseCommand):
                             time=game_time,
                             field=field,
                             league=league)
-                #self.stdout.write("Loaded game %s" % repr(game))
+                # self.stdout.write("Loaded game %s" % repr(game))
                 game.save()
             elif mode == "sched" and (match_time or match_mtch):
                 line2 = text_file.readline()
@@ -245,7 +245,7 @@ class Command(BaseCommand):
                             time=game_time,
                             field=field,
                             league=league)
-                #self.stdout.write("Loaded game %s" % repr(game))
+                # self.stdout.write("Loaded game %s" % repr(game))
                 game.save()
             elif mode == "sched":
                 self.stdout.write("Didn't process game line: %s" % line)
@@ -264,9 +264,9 @@ class Command(BaseCommand):
 
             game_month = datetime.strptime(game_mo, '%b').month  # convert string format to month number
             if game_month == 12:
-                game_year = 2013
-            else:
                 game_year = 2014
+            else:
+                game_year = 2015
 
             if game_hr != 12:
                 game_hr += 12  # covert to 24 hour time.  Always assume games are in the evening..
@@ -277,10 +277,9 @@ class Command(BaseCommand):
             except ValueError as e:
                 pdb.set_trace()
 
-            #print game_datetime.strftime("%A, %B %d,  %Y  %I:%M %p")
+            # print game_datetime.strftime("%A, %B %d,  %Y  %I:%M %p")
         else:
             self.stdout.write(date_string)
             game_datetime = None
-
 
         return game_datetime
