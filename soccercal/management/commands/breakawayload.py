@@ -273,9 +273,9 @@ class Command(BaseCommand):
 
             game_dt = int(game_dt)
             try:
-                game_datetime = datetime(game_year, game_month, game_dt, game_hr, game_mn, tzinfo=tzinfo)
+                game_datetime = tzinfo.localize(datetime(game_year, game_month, game_dt, game_hr, game_mn))
             except ValueError as e:
-                pdb.set_trace()
+                pass
 
             # print game_datetime.strftime("%A, %B %d,  %Y  %I:%M %p")
         else:

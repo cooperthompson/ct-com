@@ -97,4 +97,4 @@ class Game(models.Model):
         ordering = ['time']
 
     def __unicode__(self):
-        return u"%s vs. %s" % (self.home_team.name, self.away_team.name)
+        return u"%s vs. %s @ %s" % (self.home_team.name, self.away_team.name, self.time)
