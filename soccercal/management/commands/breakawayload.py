@@ -264,9 +264,9 @@ class Command(BaseCommand):
 
             game_month = datetime.strptime(game_mo, '%b').month  # convert string format to month number
             if game_month == 12:
-                game_year = 2014
+                game_year = 2016
             else:
-                game_year = 2015
+                game_year = 2017
 
             if game_hr != 12:
                 game_hr += 12  # covert to 24 hour time.  Always assume games are in the evening..

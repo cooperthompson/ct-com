@@ -28,8 +28,7 @@ def home(request):
     webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
     full_ics = '%s%s.ics' % (webcal_url, 'ics/Master')
 
-
-    this_league = League.objects.all()[0]
+    this_league = League.objects.filter(name__icontains="coed")
 
     template = loader.get_template('home.html')
     context = RequestContext(request, {
