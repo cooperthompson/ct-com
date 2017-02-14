@@ -8,6 +8,10 @@
           box-sizing: border-box;
 }
 
+.breakaway {
+    background-color: rgb(231, 228, 211)
+}
+
 #topnav>ul {
     list-style-type: disc;
     margin: 0;

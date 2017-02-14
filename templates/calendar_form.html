@@ -1,0 +1,70 @@
+{% load admin_static %}
+{% load staticfiles %}
+{% load url from future %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}BreakAway Schedule{% endblock %}</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <link rel="stylesheet" type="text/css" href="http:////netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ctcom.css' %}"/>
+
+    {% block extrastyle %}{% endblock %}
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js" type="text/javascript"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.js" type="text/javascript"></script>
+
+    {% block extrascript %}{% endblock %}
+    {% block extrahead %}{% endblock %}
+
+    {% block blockbots %}
+        <meta name="robots" content="NONE,NOARCHIVE"/>
+    {% endblock %}
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+{% load i18n %}
+
+<body class="breakaway">
+
+<!-- Container -->
+<div id="container-fluid" style="padding:15px;">
+    <div class="row">
+        <div class="col-md-12">
+            <p><b><i>Beta!</i></b> Subscribe to your team schedule on your mobile device or calendar app:</p>
+        </div>
+    </div>
+
+    <form action="/calendar/launcher/" id="breakaway-calendar-selecter">
+        <!-- Content -->
+        <div class="row">
+            <div class="col-md-12">
+                <select name="team" class="team-selector">
+                    <option>Select Team</option>
+                    {% for team in teams %}
+                        <option value="{{ team.id }}">{{ team }} ({{ team.league }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" name="subscribe" value="Subscribe to team"/>
+                <input type="submit" name="google" value="Add to Google Calendar"/>
+                <input type="submit" name="online" value="View Online"/>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<!-- END Container -->
+</div>
+</body>
+</html>
+
+

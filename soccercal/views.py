@@ -1,10 +1,12 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from soccercal.models import *
 from icalendar import Calendar, Event, Alarm
 from datetime import datetime, timedelta, date
+from django.core.urlresolvers import reverse
 import pdb
 import shortuuid
+import urllib
 import pytz
 
 
@@ -28,7 +30,12 @@ def home(request):
     webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
     full_ics = '%s%s.ics' % (webcal_url, 'ics/Master')
 
-    this_league = League.objects.filter(name__icontains="coed")
+    leagues = League.objects.filter(name__icontains="coed")
+    if leagues is None:
+        leagues = League.objects.all()
+
+    if len(leagues) > 0:
+        this_league = leagues[0]
 
     template = loader.get_template('home.html')
     context = RequestContext(request, {
@@ -83,6 +90,47 @@ def league(request, league_id):
         'leagues': leagues,
         'league': this_league,
         'ics': league_ics
+    })
+    return HttpResponse(template.render(context))
+
+
+def calendar_picker(request):
+    teams = Team.objects.all()
+
+    template = loader.get_template('calendar_form.html')
+    context = RequestContext(request, {
+        'teams': teams
+    })
+    return HttpResponse(template.render(context))
+
+
+def calendar_launcher(request):
+    team_id = request.GET.get('team')
+
+    this_team = Team.objects.get(id=team_id)
+    team_page = reverse('team', args=(team_id,))
+
+    domain = request.build_absolute_uri()
+    http_url = urlparse(domain)
+    team_webcal = '{0}://{1}{2}{3}.ics'.format('webcal', http_url.netloc, team_page, this_team.slug)
+
+    if request.GET.get('subscribe'):
+        cal_url = team_webcal
+    if request.GET.get('google'):
+        cal_url = "http://www.google.com/calendar/render?{0}".format(urllib.urlencode({'cid': team_webcal}))
+    if request.GET.get('online'):
+        cal_url = team_page
+
+    template = loader.get_template('calendar_redirector.html')
+    context = RequestContext(request, {
+        'iframe_redirect_url': cal_url
+    })
+    return HttpResponse(template.render(context))
+
+
+def breakaway_mock(request):
+    template = loader.get_template('breakaway_mock.html')
+    context = RequestContext(request, {
     })
     return HttpResponse(template.render(context))
 

@@ -252,7 +252,7 @@ class Command(BaseCommand):
         return
 
     def parse_pdf_datetime(self, date_string, time_string):
-        tzinfo = pytz.timezone('US/Central')
+        #tzinfo = pytz.timezone('US/Central')
         match_date = re.match("(\w{2,3})\.\s?(\w{3}).*?\s?(\d+)", date_string)
         match_time = re.match("(\d+):(\d{2})", time_string)
 
@@ -273,7 +273,7 @@ class Command(BaseCommand):
 
             game_dt = int(game_dt)
             try:
-                game_datetime = tzinfo.localize(datetime(game_year, game_month, game_dt, game_hr, game_mn))
+                game_datetime = datetime(game_year, game_month, game_dt, game_hr, game_mn)
             except ValueError as e:
                 pass
 
