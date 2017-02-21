@@ -97,11 +97,32 @@ def league(request, league_id):
 def calendar_picker(request):
     teams = Team.objects.all()
 
+    for team_entry in teams:
+        (webcal, google, online) = calendar_urls(request, team_entry.id)
+        team_entry.webcal = webcal
+        team_entry.google = google
+        team_entry.online = online
+
     template = loader.get_template('calendar_form.html')
     context = RequestContext(request, {
-        'teams': teams
+        'teams': teams,
     })
     return HttpResponse(template.render(context))
+
+
+def calendar_urls(request, team_id):
+    this_team = Team.objects.get(id=team_id)
+    team_page = reverse('team', args=(team_id,))
+
+    domain = request.build_absolute_uri()
+    http_url = urlparse(domain)
+    team_webcal = '{0}://{1}{2}{3}.ics'.format('webcal', http_url.netloc, team_page, this_team.slug)
+
+    webcal = team_webcal
+    google = "http://www.google.com/calendar/render?{0}".format(urllib.urlencode({'cid': team_webcal}))
+    online = team_page
+
+    return webcal, google, online
 
 
 def calendar_launcher(request):

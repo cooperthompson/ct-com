@@ -40,26 +40,55 @@
         </div>
     </div>
 
-    <form action="/calendar/launcher/" id="breakaway-calendar-selecter">
+    <form action="" id="breakaway-calendar-selecter">
         <!-- Content -->
         <div class="row">
             <div class="col-md-12">
                 <select name="team" class="team-selector">
                     <option>Select Team</option>
                     {% for team in teams %}
-                        <option value="{{ team.id }}">{{ team }} ({{ team.league }})</option>
+                        <option id="{{ team.id }}" data-webcal="{{ team.webcal }}" data-google="{{ team.google }}" data-online="{{ team.online }}" value="{{ team.id }}">{{ team }} ({{ team.league }})</option>
                     {% endfor %}
                 </select>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <input type="submit" name="subscribe" value="Subscribe to team"/>
-                <input type="submit" name="google" value="Add to Google Calendar"/>
-                <input type="submit" name="online" value="View Online"/>
+                <input type="submit" id='webcal-button' name="action" value="Subscribe to team"/>
+                <input type="button" id='google-button' name="action" value="Add to Google Calendar"/>
+                <input type="button" id='online-button' name="action" value="View Online"/>
             </div>
         </div>
     </form>
+    <script type="text/javascript">
+
+
+        var form_processor = function(launch_mode) {
+            var form = document.getElementById('breakaway-calendar-selecter');
+            var option = document.getElementById(form.team.value);
+
+            if( launch_mode === 'webcal') {
+                window.top.location = option.getAttribute('data-webcal');
+            }
+            if( launch_mode === 'google') {
+                window.top.location = option.getAttribute('data-google');
+            }
+            if( launch_mode === 'online') {
+                window.top.location = option.getAttribute('data-online');
+            }
+        }
+
+
+        document.getElementById('webcal-button').onclick = function() { form_processor('webcal'); };
+        document.getElementById('google-button').onclick = function() { form_processor('google'); };
+        document.getElementById('online-button').onclick = function() { form_processor('online'); };
+
+        document.getElementById('breakaway-calendar-selecter').onsubmit = function(event) {
+            event.preventDefault();
+            form_processor('webcal');
+        }
+
+    </script>
 </div>
 </div>
 <!-- END Container -->

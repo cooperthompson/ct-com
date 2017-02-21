@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
         window.onload = function() {
-            window.top.location.href = "{{ iframe_redirect_url }}";
+            window.location.replace("{{ iframe_redirect_url }}");
         }
     </script>
     {% block extrascript %}{% endblock %}
