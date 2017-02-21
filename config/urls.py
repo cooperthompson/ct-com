@@ -6,7 +6,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
                        url(r'^$', 'soccercal.views.home', name='home'),
                        url(r'^calendar/picker', 'soccercal.views.calendar_picker', name='calendar_picker'),
-                       url(r'^calendar/launcher', 'soccercal.views.calendar_launcher', name='calendar_launch'),
                        url(r'^team/(?P<team_id>.+)/.+.ics$', 'soccercal.views.ics', name='team_ics'),
                        url(r'^team/(?P<team_id>.+)/$', 'soccercal.views.team', name='team'),
                        url(r'^league/.+/.+.ics$', 'soccercal.views.master_ics', name='master_ics'),

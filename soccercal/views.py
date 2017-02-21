@@ -125,30 +125,6 @@ def calendar_urls(request, team_id):
     return webcal, google, online
 
 
-def calendar_launcher(request):
-    team_id = request.GET.get('team')
-
-    this_team = Team.objects.get(id=team_id)
-    team_page = reverse('team', args=(team_id,))
-
-    domain = request.build_absolute_uri()
-    http_url = urlparse(domain)
-    team_webcal = '{0}://{1}{2}{3}.ics'.format('webcal', http_url.netloc, team_page, this_team.slug)
-
-    if request.GET.get('subscribe'):
-        cal_url = team_webcal
-    if request.GET.get('google'):
-        cal_url = "http://www.google.com/calendar/render?{0}".format(urllib.urlencode({'cid': team_webcal}))
-    if request.GET.get('online'):
-        cal_url = team_page
-
-    template = loader.get_template('calendar_redirector.html')
-    context = RequestContext(request, {
-        'iframe_redirect_url': cal_url
-    })
-    return HttpResponse(template.render(context))
-
-
 def breakaway_mock(request):
     template = loader.get_template('breakaway_mock.html')
     context = RequestContext(request, {
