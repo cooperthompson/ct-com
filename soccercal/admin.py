@@ -29,11 +29,11 @@ class AwayGameInline(admin.TabularInline):
 class LeagueAdmin(admin.ModelAdmin):
     inlines = [TeamInline]
     fields = ['name', 'is_active', 'org']
-    readonly_fields = ['key']
-    list_display = ['__unicode__', 'name', 'is_active']
+    # readonly_fields = ['key']
+    list_display = ['__unicode__', 'key', 'name', 'is_active']
     search_fields = ['name']
     list_filter = ['is_active']
-    list_editable = ['name', 'is_active']
+    list_editable = ['key', 'name', 'is_active']
 
 
 class TeamAdmin(admin.ModelAdmin):

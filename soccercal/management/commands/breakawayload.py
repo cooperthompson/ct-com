@@ -20,10 +20,10 @@ class Command(BaseCommand):
         self.league = ""
 
         # clear out existing data
-        Game.objects.all().delete()
-        Team.objects.all().delete()
-        League.objects.all().delete()
-        Season.objects.all().delete()
+        # Game.objects.all().delete()
+        # Team.objects.all().delete()
+        # League.objects.all().delete()
+        # Season.objects.all().delete()
 
     def handle(self, *args, **options):
 

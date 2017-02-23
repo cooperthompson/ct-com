@@ -13,6 +13,7 @@ import pytz
 def home(request):
     leagues = League.objects.filter(is_active=True)
     leagues.prefetch_related('teams')
+    this_league = None
 
     today = date.today()
     tomorrow = today + timedelta(days=1)
@@ -30,7 +31,6 @@ def home(request):
     webcal_url = http_url.geturl().replace(http_url.scheme, 'webcal', 1)
     full_ics = '%s%s.ics' % (webcal_url, 'ics/Master')
 
-    leagues = League.objects.filter(name__icontains="coed")
     if leagues is None:
         leagues = League.objects.all()
 
